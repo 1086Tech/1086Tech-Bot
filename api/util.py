@@ -34,7 +34,8 @@ class TaskManager:
             except BaseException as e:
                 break
         if self.Status:
-            raise TaskManagerExit
+            Error = TaskManagerExit("任务管理器异常退出")
+            raise Error
     def AddTask(self, Task:Thread) -> bool:
         if isinstance(Task, Thread):
             self.Perform_QueuingTask.append(Task)
@@ -94,11 +95,11 @@ def CodeReview(PATH:Path, Code: str, Group_id: int) -> bool:
                 random_numbers += f"{str(random.randint(1, 100))} "
             random_numbers += str(random.randint(1, 100))
             tech1 = Tech(Mode=1, Number=random_numbers)
-            Message[Group_id] = f'模式1输出\n{str(tech1)}, 原值{random_numbers}'
+            Message[f'模式1输出\n{str(tech1)}, 原值{random_numbers}'] = Group_id
             random_number = random.randint(1, 100)
             tech2 = Tech(Mode=2, Number=random_number)
-            Message[Group_id] = f'模式2输出\n{str(tech2)} 原数{random_number}'
+            Message[f'模式2输出\n{str(tech2)} 原数{random_number}'] = Group_id
             os.remove(PATH/"temp.py")
         except BaseException as e:
-            Message[Group_id] = f'审核不通过，错误：{e}'
+            Message[f'审核不通过，错误：{e}'] = Group_id
         return Message
